@@ -1,4 +1,8 @@
 syntax enable
+
+au BufNewFile,BufRead *.tsx set syntax=javascript
+au BufNewFile,BufRead *.ts set syntax=javascript
+
 "colorscheme desert
 set background=dark
 let g:solarized_visibility = "high"
@@ -17,12 +21,13 @@ set softtabstop=4 shiftwidth=4 expandtab
 set noswapfile
 
 set laststatus=2
-set statusline+=%-10.3n\                     " buffer number  
+set statusline=%{getcwd()}                   " current working directory
+set statusline+=\ -\                           " right align remainder  
 set statusline+=%f\                          " filename   
 set statusline+=%h%m%r%w                     " status flags  
 set statusline+=\[%{strlen(&ft)?&ft:'none'}] " file type  
 set statusline+=%=                           " right align remainder  
-set statusline+=0x%-8B                       " character value  
+"set statusline+=0x%-8B                       " character value  
 set statusline+=%-14(%l,%c%V%)               " line, character  
 set statusline+=%<%P                         " file position 
 
@@ -30,15 +35,14 @@ set hidden
 
 set diffopt+=iwhite
 
-
-
-
-
 "hi CursorLine   cterm=NONE ctermbg=darkblue ctermfg=white guibg=darkred guifg=white
 "colours
 "
 "General commands
 command! Clqf call setqflist([]) 
+
+" formatiing
+com! FormatJSON %!python -m json.tool
 
 " tabs
 nnoremap td  :tabclose<CR>
@@ -61,20 +65,29 @@ let g:scratch_autohide = '0'
 " The Silver Searcher
 if executable('ag')
     let g:EclimLocateFileNonProjectScope = 'ag'
-    set grepprg=ag\ --nogroup\ --nocolor\ --column
+    set grepprg=ag\ --path-to-agignore\ ~/.agignore\ -U\ --nogroup\ --nocolor\ --column
     set grepformat=%f:%l:%c%m
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
     let g:ctrlp_use_caching = 0
 
     " bind <Leader> (backward slash) to grep shortcut
     command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
-    command! -nargs=+ -complete=file -bar Agj silent! grep! -G.*java <args>|cwindow|redraw!
-    command! -nargs=+ -complete=file -bar Agjs silent! grep! -G.*js <args>|cwindow|redraw!
-    command! -nargs=+ -complete=file -bar Agjt silent! grep! -G.*Test\.java <args>|cwindow|redraw!
+    command! -nargs=+ -complete=file -bar Aghere silent! grep! <args> %:p:h|cwindow|redraw!
+    command! -nargs=+ -complete=file -bar Agj silent! grep! -G.*\.java$ <args>|cwindow|redraw!
+    command! -nargs=+ -complete=file -bar Agkt silent! grep! -G.*\.kt$ <args>|cwindow|redraw!
+    command! -nargs=+ -complete=file -bar Agjs silent! grep! -G.*\.js$ <args>|cwindow|redraw!
+    command! -nargs=+ -complete=file -bar Agjt silent! grep! -G.*Test\.java$ <args>|cwindow|redraw!
     command! -nargs=+ -complete=file -bar Agsql silent! grep! -G.*sql <args>|cwindow|redraw!
-    command! -nargs=+ -complete=file -bar Agjnt silent! grep! -G'^.*/src/main/java/.*\.java$' <args>|cwindow|redraw!
+    command! -nargs=+ -complete=file -bar Agjnt silent! grep! -G'.*(?<!Test|IT).java$' <args>|cwindow|redraw!
+    command! -nargs=+ -complete=file -bar Fjc silent! grep! -G'<args>.*\.java$' class.*<args>|cwindow|redraw!
+    command! -nargs=+ -complete=file -bar Fji silent! grep! -G'<args>.*\.java$' interface.*<args>|cwindow|redraw!
 
 endif
+
+"ctags
+"
+command! GenerateTags call system('ctags -Rf ./.tags --python-kinds=-i --exclude=.git `cat .srclist`') | echo
+let g:Tlist_WinWidth=65
 
 "Find files
 
@@ -127,10 +140,6 @@ set errorformat+=%-G%.%# " only matching lines show see "-G" in documentation
 "set makeprg=cat\ ~/.vimerrors
 
 
-"ctags
-"
-set tags+=.tags
-command! GenerateTags call system('ctags -Rf ./.tags --python-kinds=-i --exclude=.git `cat .srclist`') | echo
 
 " jad
 so ~/.vim/plugin/jad.vim
@@ -168,8 +177,8 @@ function! s:VSetSearch(cmdtype)
     let @s = temp
 endfunction
 
-function! FindFile(pattern, patterntype, targettype)
-    let files = system('find . -type '.a:targettype.'  -'.a:patterntype.' "'.a:pattern.'"')
+function! FindFile(pattern, patterntype, targettype, maxdepth)
+    let files = system('find . -type '.a:targettype.'  -'.a:patterntype.' "'.a:pattern.'" -maxdepth '.a:maxdepth.' -not -path "*/target/*"')
     let filelist = split(files, "\n")
     let items = []
     for fl in filelist
@@ -178,11 +187,24 @@ function! FindFile(pattern, patterntype, targettype)
     call setqflist(items)
 endfunction
 "
-:command! -nargs=+ Ff call FindFile("<args>", "name", "f") | :copen
-:command! -nargs=+ Ffi call FindFile("<args>", "iname", "f") | :copen
-:command! -nargs=+ Ffr call FindFile("<args>", "regex", "f") | :copen
-:command! -nargs=+ Ffri call FindFile("<args>", "iregex", "f") | :copen
+:command! -nargs=+ Ff call FindFile("<args>", "name", "f", 8) | :copen
+:command! -nargs=+ Ffp call FindFile("*<args>*", "name", "f", 8) | :copen
+:command! -nargs=+ Ffi call FindFile("<args>", "iname", "f", 8) | :copen
+:command! -nargs=+ Ffr call FindFile("<args>", "regex", "f", 8) | :copen
+:command! -nargs=+ Ffri call FindFile("<args>", "iregex", "f", 8) | :copen
+:command! -nargs=+ Ll call FindFile("<args>", "name", "f", 1) | :copen
 
+:command! Lcdh lcd %:p:h
+:command! Lcdb1 lcd %:p:h:h
+:command! Lcdb2 lcd %:p:h:h:h
+:command! Lcdb3 lcd %:p:h:h:h:h
+:command! Lcdb4 lcd %:p:h:h:h:h:h
+:command! Lcdb5 lcd %:p:h:h:h:h:h:h
+:command! Lcdb6 lcd %:p:h:h:h:h:h:h:h
+:command! Lcdb7 lcd %:p:h:h:h:h:h:h:h:h
+:command! Lcdb8 lcd %:p:h:h:h:h:h:h:h:h:h
+:command! Lcdb9 lcd %:p:h:h:h:h:h:h:h:h:h:h
+"
 ":echo qfl
 "[{'lnum': 18, 'bufnr': 33, 'col': 9, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'text': ': * or a custom serializer that generates custom JSON.'}, {'lnum': 31, 'bufnr': 62, 'col': 35, 'valid': 1, 'vcol': 0, 'nr': -1, 'type': '', 'pattern': '', 'text': ':@
 "UseLightweightSerialization("Has custom serializer")'}]
@@ -235,3 +257,13 @@ nnoremap <leader>g :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 "
 "set nobackup
 "set nowritebackup
+
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set norelativenumber
+  else
+    set relativenumber
+  endif
+endfunc
+
+nnoremap <C-n> :call NumberToggle()<cr>
