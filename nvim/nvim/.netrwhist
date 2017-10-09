@@ -1,0 +1,8 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =6
+let g:netrw_dirhist_1='/Users/pmetcalf/dev/ubs-anvil/ionbus/samples/itaslibrary/date_change_test_data/date_change_test/src'
+let g:netrw_dirhist_2='/Users/pmetcalf/dev/ubs-anvil/ionbus/testcomps/fnpub'
+let g:netrw_dirhist_3='/Users/pmetcalf/dev/ubs-anvil/ionbus/testcomps/fnpub/src'
+let g:netrw_dirhist_4='/Users/pmetcalf/Downloads'
+let g:netrw_dirhist_5='/Users/pmetcalf'
+let g:netrw_dirhist_6='/Users/pmetcalf/Downloads'
