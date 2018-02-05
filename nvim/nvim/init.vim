@@ -74,11 +74,11 @@ set formatoptions+=o    " Continue comment marker in new lines.
 set textwidth=0         " Hard-wrap long lines as you type them.
 set expandtab           " Insert spaces when TAB is pressed.
 set tabstop=4           " Render TABs using this many spaces.
-set shiftwidth=2        " Indentation amount for < and > commands.
+set shiftwidth=4        " Indentation amount for < and > commands.
 
 set noerrorbells        " No beeps.
 set modeline            " Enable modeline.
-set esckeys             " Cursor keys in insert mode.
+" set esckeys             " Cursor keys in insert mode.
 set linespace=0         " Set line-spacing to minimum.
 set nojoinspaces        " Prevents inserting two spaces after punctuation on a join (J)
 
@@ -143,10 +143,11 @@ let NERDTreeDirArrows = 1
 """""""""""""""""""""""""""""""""""""""""""""""
 " Custom key mapping
 """""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <Leader>f :NERDTreeToggle<CR>
-nnoremap <silent> <Leader>v :NERDTreeFind<CR>
+nnoremap <leader>f :NERDTreeToggle<CR>
+nnoremap <silent> <leader>v :NERDTreeFind<CR>
 nnoremap <leader>. :CtrlPTag<cr>
-nnoremap <silent> <Leader>b :TagbarToggle<CR>
+nnoremap <silent> <leader>b :TagbarToggle<CR>
+nnoremap <leader>gs mawv/ <CR>"ty/ <CR>wvwh"ny/getters<CR>$a<CR><CR><Esc>xxapublic<Esc>"tpa<Esc>"npbiget<Esc>l~ea()<CR>{<CR><Tab>return<Esc>"npa;<CR>}<Esc>=<CR><Esc>/setters<CR>$a<CR><CR><Esc>xxapublic void<Esc>"npbiset<Esc>l~ea(<Esc>"tpa <Esc>"npa)<CR>{<CR><Tab>this.<Esc>"npa=<Esc>"npa;<CR>}<Esc>=<CR>`ak
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " Custom commands
