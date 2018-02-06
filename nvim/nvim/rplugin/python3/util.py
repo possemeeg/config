@@ -49,3 +49,13 @@ class NvimPlugin(object):
     def echo(self, message):
         self.nvim.command('echo "{}"'.format(self.nvim.funcs.escape(message, '"')))
 
+    def findbuffer(self, name):
+        for buff in self.nvim.buffers:
+            if buff.name == name:
+                return buff
+
+    def findbuffers(self, name):
+        for buff in self.nvim.buffers:
+            if name in buff.name:
+                yield buff
+
