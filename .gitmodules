@@ -1,0 +1,3 @@
+[submodule "nvim/rplugin"]
+	path = nvim/rplugin
+	url = git@github.com:possemeeg/vim.rplugin.git
