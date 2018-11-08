@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =7
+let g:netrw_dirhist_1='/Users/petermetcalf/dev/dve-kirk/src/main'
+let g:netrw_dirhist_2='/Users/petermetcalf/dev/dve-kirk/src'
+let g:netrw_dirhist_3='/Users/petermetcalf/dev/dve-kirk'
+let g:netrw_dirhist_4='/Users/petermetcalf/dev/dve-kirk/doc'
+let g:netrw_dirhist_5='/Users/petermetcalf/dev/dve-encoding/src/main/scala/com/imggaming/dve/main'
+let g:netrw_dirhist_6='/Users/petermetcalf/dev/dve-kirk/doc'
+let g:netrw_dirhist_7='/Users/petermetcalf/dev/dve-kirk/database/sql'
