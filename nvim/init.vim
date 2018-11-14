@@ -19,6 +19,10 @@
 " Ctrl-W } preview tag
 " :ts /<pattern> searches tags for pattern
 "
+" Extra Commands
+" ==============
+" Format json ->
+" :execute '%!python3 -m json.tool'
 "
 " Plugins
 " =======
@@ -34,11 +38,12 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'https://github.com/scrooloose/nerdtree.git'
 Plug 'git://github.com/altercation/vim-colors-solarized.git'
-Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
+" Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
 Plug 'https://github.com/vim-airline/vim-airline'
 Plug 'https://github.com/tpope/vim-fugitive'
-Plug 'https://github.com/jlanzarotta/bufexplorer.git'
-Plug 'git://github.com/majutsushi/tagbar'
+" Plug 'https://github.com/jlanzarotta/bufexplorer.git'
+" Plug 'git://github.com/majutsushi/tagbar'
+Plug 'git://github.com/google/vim-codefmt'
 
 " Initialize plugin system
 call plug#end()
@@ -49,17 +54,24 @@ call plug#end()
 """""""""""""""
 set hidden
 set spelllang=en_gb
+set relativenumber
+ 
+"""""""""""""""
+" highlight column 101 
+"""""""""""""""
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%101v.\+/
 
 """"""""
 " Colour
 """"""""
 syntax enable
-set background=dark
-let g:solarized_visibility = "high"
-let g:solarized_contrast = "high"
-let g:solarized_termcolors = 256
-let g:solarized_termtrans = 0
-colorscheme solarized
+"set background=dark
+"let g:solarized_visibility = "high"
+"let g:solarized_contrast = "high"
+"let g:solarized_termcolors = 256
+"let g:solarized_termtrans = 0
+"colorscheme solarized
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " From http://nerditya.com/code/guide-to-neovim/
@@ -128,7 +140,7 @@ let g:airline_section_y =  '%{getcwd()}'
 """""""""""""""""""""""""""""""""""""""""""""""
 if executable('ag')
     let g:EclimLocateFileNonProjectScope = 'ag'
-    set grepprg=ag\ --nogroup\ --nocolor\ --column
+    set grepprg=ag\ --case-sensitive\ --path-to-ignore\ ~/pmg/config/vimagignore\ --nogroup\ --nocolor\ --column
     set grepformat=%f:%l:%c%m
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
     let g:ctrlp_use_caching = 0
@@ -137,9 +149,10 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
 """""""""""""""""""""""""""""""""""""""""""""""
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
+let g:NERDTreeAutoDeleteBuffer = 1
+let g:NERDTreeMinimalUI = 1
+let g:NERDTreeDirArrows = 1
+let g:NERDTreeWinSize=60
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " Custom key mapping
