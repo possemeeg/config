@@ -19,6 +19,10 @@
 " Ctrl-W } preview tag
 " :ts /<pattern> searches tags for pattern
 "
+" Extra Commands
+" ==============
+" Format json ->
+" :execute '%!python3 -m json.tool'
 "
 " Plugins
 " =======
@@ -31,13 +35,10 @@
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'https://github.com/scrooloose/nerdtree.git'
 Plug 'git://github.com/altercation/vim-colors-solarized.git'
-Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
 Plug 'https://github.com/vim-airline/vim-airline'
 Plug 'https://github.com/tpope/vim-fugitive'
-Plug 'https://github.com/jlanzarotta/bufexplorer.git'
-Plug 'git://github.com/majutsushi/tagbar'
+Plug 'leafoftree/vim-vue-plugin'
 
 " Initialize plugin system
 call plug#end()
@@ -48,6 +49,13 @@ call plug#end()
 """""""""""""""
 set hidden
 set spelllang=en_gb
+set relativenumber
+ 
+"""""""""""""""
+" highlight column 101 
+"""""""""""""""
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%101v.\+/
 
 """"""""
 " Colour
@@ -118,34 +126,25 @@ let g:airline_symbols.paste = '∥'
 let g:airline_symbols.spell = 'Ꞩ'
 let g:airline_symbols.notexists = '∄'
 let g:airline_symbols.whitespace = 'Ξ'
-let g:airline_section_y =  '%{getcwd()}'
+"let g:airline_section_y =  '%{getcwd()}'
 "let g:airline_section_d =  '%-10.3n\'
-"let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline_section_y =  '%n'
+let g:airline#extensions#tabline#buffer_nr_show = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " The Silver Searcher
 """""""""""""""""""""""""""""""""""""""""""""""
 if executable('ag')
     let g:EclimLocateFileNonProjectScope = 'ag'
-    set grepprg=ag\ --nogroup\ --nocolor\ --column
+    set grepprg=ag\ --case-sensitive\ --path-to-ignore\ ~/pmg/config/vimagignore\ --nogroup\ --nocolor\ --column
     set grepformat=%f:%l:%c%m
     let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
     let g:ctrlp_use_caching = 0
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""
-" NERDTree
-"""""""""""""""""""""""""""""""""""""""""""""""
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeDirArrows = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""
 " Custom key mapping
 """""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>f :NERDTreeToggle<CR>
-nnoremap <silent> <leader>v :NERDTreeFind<CR>
-nnoremap <leader>. :CtrlPTag<cr>
 nnoremap <silent> <leader>b :TagbarToggle<CR>
 nnoremap <leader>gs mawv/ <CR>"ty/ <CR>wvwh"ny/getters<CR>$a<CR><CR><Esc>xxapublic<Esc>"tpa<Esc>"npbiget<Esc>l~ea()<CR>{<CR><Tab>return<Esc>"npa;<CR>}<Esc>=<CR><Esc>/setters<CR>$a<CR><CR><Esc>xxapublic void<Esc>"npbiset<Esc>l~ea(<Esc>"tpa <Esc>"npa)<CR>{<CR><Tab>this.<Esc>"npa=<Esc>"npa;<CR>}<Esc>=<CR>`ak
 
