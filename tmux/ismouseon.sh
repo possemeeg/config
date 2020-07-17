@@ -1,0 +1,1 @@
+for d in $(xinput list | ag 'Prestigio.*pointer' |ag -o 'id=([^\s]+)' |ag -o '[0-9]+'); do if [ $(xinput list-props $d | ag 'Device Enabled' |ag -o ':.*' | ag -o [0-9]+) == 1 ]; then echo 'MOUSE ON'; exit 0; fi; done; echo 'MOUSE OFF'; exit 0

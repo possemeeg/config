@@ -24,10 +24,6 @@
 " Format json ->
 " :execute '%!python3 -m json.tool'
 "
-" Python remote plugs rplugin
-" ==========================
-" :UpdateRemotePlugins
-"
 " Plugins
 " =======
 "
@@ -35,7 +31,6 @@
 " Reload init.vim and :PlugInstall to install plugins.
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 "
-
 let g:maplocalleader = "\<SPACE>"
 
 packadd vimball
@@ -181,34 +176,30 @@ function! GitBranch()
   return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
 endfunction
 
-"function! IsMouseOn()
-"    return system("EN=''; for d in $(xinput list | ag 'Prestigio.*pointer' |ag -o 'id=([^\s]+)' |ag -o '[0-9]+'); do if [ $(xinput list-props $d | ag 'Device Enabled' |ag -o ':.*' | ag -o [0-9]+) == 1 ]; then EN='---MOUSE ON---'; break; fi; done; echo $EN | tr -d '\n'")
-"endfunction
-
 function! StatuslineGit()
   let l:branchname = GitBranch()
   return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
-highlight ModifiedColour ctermfg=White ctermbg=125
-highlight FilenameColour ctermfg=Gray ctermbg=Black
-highlight WarningColour ctermfg=White ctermbg=Red
+highlight IsModified ctermfg=Gray ctermbg=Red
+highlight IsNotModified ctermfg=Gray ctermbg=Black
 
 set statusline=
-set statusline+=%n\ │\ %{winnr()}\ ║ 
-set statusline+=%#CursorColumn#
-set statusline+=%#WarningColour#
-"set statusline+=%{IsMouseOn()}
-set statusline+=%#FilenameColour#
-set statusline+=%#ModifiedColour#%{&mod?expand('%:p').'\ [+]':''}%*
-set statusline+=%#FilenameColour#%{&mod?'':expand('%:p')}%*
-set statusline+=%#FilenameColour#
+set statusline+=%n:%{winnr()} 
+"set statusline+=%#PmenuSel#
+"set statusline+=%{StatuslineGit()}
+" set statusline+=%#fileNameColourNormal#
+set statusline+=%#IsModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
+set statusline+=\ %F
+set statusline+=%m
 set statusline+=%=
 set statusline+=%#LineNr#
 set statusline+=%#CursorColumn#
-set statusline+=\ %y\ ║
-set statusline+=\ %p%%\ ║
-set statusline+=\ %l│%c
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
 set statusline+=\ 
 
 """""""""""""""""""""""""""""""""""""""""""""""
@@ -218,52 +209,28 @@ if executable('ag')
     let g:EclimLocateFileNonProjectScope = 'ag'
     set grepprg=ag\ --case-sensitive\ --path-to-ignore\ ~/pmg/config/vimagignore\ --nogroup\ --nocolor\ --column
     set grepformat=%f:%l:%c%m
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    let g:ctrlp_use_caching = 0
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " Custom key mapping
 """""""""""""""""""""""""""""""""""""""""""""""
-
-"function! MouseOff()
-"  return system("for d in $(xinput list | ag 'Prestigio.*pointer' |ag -o 'id=([^\s]+)' |ag -o '[0-9]+'); do xinput disable $d; done")
-"endfunction
-"
-"function! MouseOn()
-"  return system("for d in $(xinput list | ag 'Prestigio.*pointer' |ag -o 'id=([^\s]+)' |ag -o '[0-9]+'); do xinput enable $d; done")
-"endfunction
-
 nmap <LocalLeader>q :q<CR>
-nmap <LocalLeader>- :Ex<CR>
+nmap <LocalLeader>e :Ex<CR>
 nmap <LocalLeader>w :update<CR>
 nmap <LocalLeader>bd :bd<CR>
 nmap <LocalLeader>/ :noh<CR>
-nmap <LocalLeader>1 1w
-nmap <LocalLeader>2 2w
-nmap <LocalLeader>3 3w
-nmap <LocalLeader>4 4w
-nmap <LocalLeader>5 5w
-nmap <LocalLeader>6 6w
-nmap <LocalLeader>7 7w
-nmap <LocalLeader>8 8w
-nmap <LocalLeader>9 9w
-nmap <LocalLeader>cn :cn<CR>
-nmap <LocalLeader>cN :cN<CR>
-nmap <LocalLeader>! 1gt
-nmap <LocalLeader>@ 2gt
-nmap <LocalLeader># 3gt
-nmap <LocalLeader>$ 4gt
-nmap <LocalLeader>% 5gt
-nmap <LocalLeader>^ 6gt
-nmap <LocalLeader>& 7gt
-nmap <LocalLeader>* 8gt
-nmap <LocalLeader>( 9gt
-"nmap <LocalLeader>mn :call MouseOn()<CR>
-"nmap <LocalLeader>mf :call MouseOff()<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " Custom commands
 """""""""""""""""""""""""""""""""""""""""""""""
-"command! -nargs=+ -complete=file -bar Ag silent! grep! <args> $(pwdxx)|cwindow|redraw!
+command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+command! -nargs=+ -complete=file -bar Agj silent! grep! -G.*java <args>|cwindow|redraw!
+command! -nargs=+ -complete=file -bar Agjs silent! grep! -G.*js <args>|cwindow|redraw!
+command! -nargs=+ -complete=file -bar Agjt silent! grep! -G.*Test\.java <args>|cwindow|redraw!
+command! -nargs=+ -complete=file -bar Agsql silent! grep! -G.*sql <args>|cwindow|redraw!
+command! -nargs=+ -complete=file -bar Agjnt silent! grep! -G'^.*/src/main/java/.*\.java$' <args>|cwindow|redraw!
 
 autocmd FileType python setlocal indentkeys-=<:>
 autocmd FileType python setlocal indentkeys-=:

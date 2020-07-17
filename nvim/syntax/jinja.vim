@@ -1,0 +1,1 @@
+../Vim-Jinja2-Syntax/syntax/jinja.vim
