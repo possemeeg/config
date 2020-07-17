@@ -36,14 +36,9 @@
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'https://github.com/scrooloose/nerdtree.git'
 Plug 'git://github.com/altercation/vim-colors-solarized.git'
-" Plug 'https://github.com/ctrlpvim/ctrlp.vim.git'
 Plug 'https://github.com/vim-airline/vim-airline'
 Plug 'https://github.com/tpope/vim-fugitive'
-" Plug 'https://github.com/jlanzarotta/bufexplorer.git'
-" Plug 'git://github.com/majutsushi/tagbar'
-Plug 'git://github.com/google/vim-codefmt'
 
 " Initialize plugin system
 call plug#end()
@@ -53,14 +48,22 @@ call plug#end()
 " Vim settingss
 """""""""""""""
 set hidden
-set spelllang=en_gb
 set relativenumber
+
+"""""""""""""""
+" Spelling
+" :mksp!  ~/.local/share/nvim/site/spell/ ~/.config/nvim/hunspell/en_GB
+" :set nospell
+" :set spell
+"""""""""""""""
+autocmd FileType tex setlocal spell
+set spelllang=en
  
 """""""""""""""
 " highlight column 101 
 """""""""""""""
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%101v.\+/
+"highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+"match OverLength /\%101v.\+/
 
 """"""""
 " Colour
@@ -132,8 +135,8 @@ let g:airline_symbols.spell = 'Ꞩ'
 let g:airline_symbols.notexists = '∄'
 let g:airline_symbols.whitespace = 'Ξ'
 let g:airline_section_y =  '%{getcwd()}'
-"let g:airline_section_d =  '%-10.3n\'
-"let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline_section_d =  '%-10.3n\'
+let g:airline#extensions#tabline#buffer_nr_show = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " The Silver Searcher
@@ -146,13 +149,6 @@ if executable('ag')
     let g:ctrlp_use_caching = 0
 endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""
-" NERDTree
-"""""""""""""""""""""""""""""""""""""""""""""""
-let g:NERDTreeAutoDeleteBuffer = 1
-let g:NERDTreeMinimalUI = 1
-let g:NERDTreeDirArrows = 1
-let g:NERDTreeWinSize=60
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " Custom key mapping
