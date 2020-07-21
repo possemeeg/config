@@ -1,0 +1,9 @@
+alias ag='ag -s'
+
+GHIST_SCRIPT="$HOME/Development/script/ghist.py"
+GHIST_DB="$HOME/.ghist.db"
+
+alias gh="python3.7 $GHIST_SCRIPT --database $GHIST_DB get"
+alias gha="python3.7 $GHIST_SCRIPT --database $GHIST_DB ass"
+alias ghr="python3.7 $GHIST_SCRIPT --database $GHIST_DB ref"
+alias ghe="python3.7 $GHIST_SCRIPT --database $GHIST_DB ex"
