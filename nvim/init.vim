@@ -1,7 +1,7 @@
 " Commands.
 " =========
 "
-" <leader> f - toggle NERD tree
+" <keader> f - toggle NERD tree
 " <leader> v - NERD tree in this folder
 " <leader> be - buffer explorero
 " <leader> bt - buffer explorero in new tab
@@ -35,6 +35,7 @@
 " Reload init.vim and :PlugInstall to install plugins.
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 "
+let g:python3_host_prog = "~/Development/venv/.neovim/bin/python"
 
 let g:maplocalleader = "\<SPACE>"
 
@@ -43,7 +44,6 @@ packadd vimball
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'git://github.com/altercation/vim-colors-solarized.git'
-" Plug 'https://github.com/vim-airline/vim-airline'
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'leafoftree/vim-vue-plugin'
 
@@ -83,8 +83,10 @@ call plug#end()
 """""""""""""""
 set hidden
 set spelllang=en_gb
-set relativenumber
+"set relativenumber
 set autochdir
+set tags=/home/peter/Development/tags
+set clipboard=unnamedplus
  
 """""""""""""""
 " highlight column 101 
@@ -112,7 +114,7 @@ set showcmd             " Show (partial) command in status line.
 set showmatch           " Show matching brackets.
 set showmode            " Show current mode.
 set ruler               " Show the line and column numbers of the cursor.
-set number              " Show the line numbers on the left side.
+set nu                  " Show the line numbers on the left side.
 set formatoptions+=o    " Continue comment marker in new lines.
 set textwidth=0         " Hard-wrap long lines as you type them.
 set expandtab           " Insert spaces when TAB is pressed.
@@ -224,16 +226,8 @@ endif
 " Custom key mapping
 """""""""""""""""""""""""""""""""""""""""""""""
 
-"function! MouseOff()
-"  return system("for d in $(xinput list | ag 'Prestigio.*pointer' |ag -o 'id=([^\s]+)' |ag -o '[0-9]+'); do xinput disable $d; done")
-"endfunction
-"
-"function! MouseOn()
-"  return system("for d in $(xinput list | ag 'Prestigio.*pointer' |ag -o 'id=([^\s]+)' |ag -o '[0-9]+'); do xinput enable $d; done")
-"endfunction
-
 nmap <LocalLeader>q :q<CR>
-nmap <LocalLeader>- :Ex<CR>
+nmap <LocalLeader>e :Ex<CR>
 nmap <LocalLeader>w :update<CR>
 nmap <LocalLeader>bd :bd<CR>
 nmap <LocalLeader>/ :noh<CR>
@@ -257,8 +251,7 @@ nmap <LocalLeader>^ 6gt
 nmap <LocalLeader>& 7gt
 nmap <LocalLeader>* 8gt
 nmap <LocalLeader>( 9gt
-"nmap <LocalLeader>mn :call MouseOn()<CR>
-"nmap <LocalLeader>mf :call MouseOff()<CR>
+nmap <LocalLeader>n :set rnu!<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " Custom commands
