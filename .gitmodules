@@ -1,3 +1,6 @@
 [submodule "nvim/rplugin"]
 	path = nvim/rplugin
 	url = git@github.com:possemeeg/nvim.rplugin.git
+[submodule "nvim/nvim.rplugin"]
+	path = nvim/nvim.rplugin
+	url = git@github.com:possemeeg/nvim.rplugin.git
