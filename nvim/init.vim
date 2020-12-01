@@ -34,8 +34,9 @@
 " To use:
 " Reload init.vim and :PlugInstall to install plugins.
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
+" curl -fLo ~/.local/share/nvim/site/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 "
-let g:python3_host_prog = "~/Development/venv/.neovim/bin/python"
+let g:python3_host_prog = "~/Development/venv/neovim/bin/python"
 
 let g:maplocalleader = "\<SPACE>"
 
@@ -46,8 +47,9 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'git://github.com/altercation/vim-colors-solarized.git'
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'leafoftree/vim-vue-plugin'
+"Plug 'plasticboy/vim-markdown'
 
-" Plug 'freitass/todo.txt-vim'
+Plug 'freitass/todo.txt-vim'
 " Sorting tasks:
 " <localleader>s Sort the file
 " <localleader>s+ Sort the file on +Projects
@@ -70,7 +72,6 @@ Plug 'leafoftree/vim-vue-plugin'
 " <localleader>x Mark current task as done
 " <localleader>X Mark all tasks as done
 " <localleader>D Move completed tasks to done.txt 
-Plug 'freitass/todo.txt-vim'
 
 
 " Initialize plugin system
@@ -84,7 +85,7 @@ call plug#end()
 set hidden
 set spelllang=en_gb
 "set relativenumber
-set autochdir
+"set autochdir
 set tags=/home/peter/Development/tags
 set clipboard=unnamedplus
  
