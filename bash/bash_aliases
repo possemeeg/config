@@ -1,7 +1,16 @@
 alias ag='ag -s'
 
+<<<<<<< HEAD
 for f in $(ls $HOME//Development/venv/); do eval 'alias ve-$f=". ~/Development/venv/$f/bin/activate"'; done
+||||||| parent of b92bc63 (After antidote install)
+GHIST_SCRIPT="$HOME/Development/script/ghist.py"
+GHIST_DB="$HOME/.ghist.db"
+=======
+GHIST_SCRIPT="$HOME/Development/pmg/ghistintime/ghist.py"
+GHIST_DB="$HOME/.ghist.db"
+>>>>>>> b92bc63 (After antidote install)
 
+<<<<<<< HEAD
 function ve-create {
    pushd ~/Development/venv
    rm -r $1 > /dev/null 2>1
@@ -16,3 +25,15 @@ function ve-delete {
    rm -r ~/Development/venv/$1
    unalias ve-$1
 }
+||||||| parent of b92bc63 (After antidote install)
+alias gh="python3.7 $GHIST_SCRIPT --database $GHIST_DB get"
+alias gha="python3.7 $GHIST_SCRIPT --database $GHIST_DB ass"
+alias ghr="python3.7 $GHIST_SCRIPT --database $GHIST_DB ref"
+alias ghe="python3.7 $GHIST_SCRIPT --database $GHIST_DB ex"
+=======
+alias gh="python3.8 $GHIST_SCRIPT --database $GHIST_DB get"
+alias gha="python3.8 $GHIST_SCRIPT --database $GHIST_DB ass"
+alias ghr="python3.8 $GHIST_SCRIPT --database $GHIST_DB ref"
+alias ghe="python3.8 $GHIST_SCRIPT --database $GHIST_DB ex"
+
+>>>>>>> b92bc63 (After antidote install)
