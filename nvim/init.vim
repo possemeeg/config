@@ -84,7 +84,7 @@ call plug#end()
 set hidden
 set spelllang=en_gb
 "set relativenumber
-set autochdir
+"set autochdir
 set tags=/home/peter/Development/tags
 set clipboard=unnamedplus
  

@@ -7,3 +7,20 @@ alias gh="python3.7 $GHIST_SCRIPT --database $GHIST_DB get"
 alias gha="python3.7 $GHIST_SCRIPT --database $GHIST_DB ass"
 alias ghr="python3.7 $GHIST_SCRIPT --database $GHIST_DB ref"
 alias ghe="python3.7 $GHIST_SCRIPT --database $GHIST_DB ex"
+
+for f in $(ls $HOME//Development/venv/); do eval 'alias ve-$f=". ~/Development/venv/$f/bin/activate"'; done
+
+function ve-create {
+   pushd ~/Development/venv
+   rm -r $1 > /dev/null 2>1
+   python3.8 -m venv $1
+   popd
+   alias ve-$1=".  ~/Development/venv/$1/bin/activate"
+   .  ~/Development/venv/$1/bin/activate
+   pip install -U pip
+}
+
+function ve-delete {
+   rm -r ~/Development/venv/$1
+   unalias ve-$1
+}
