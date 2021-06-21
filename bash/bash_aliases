@@ -1,12 +1,12 @@
 alias ag='ag -s'
 
-GHIST_SCRIPT="$HOME/Development/script/ghist.py"
+GHIST_SCRIPT="$HOME/Development/pmg/ghistintime/ghist.py"
 GHIST_DB="$HOME/.ghist.db"
 
-alias gh="python3.7 $GHIST_SCRIPT --database $GHIST_DB get"
-alias gha="python3.7 $GHIST_SCRIPT --database $GHIST_DB ass"
-alias ghr="python3.7 $GHIST_SCRIPT --database $GHIST_DB ref"
-alias ghe="python3.7 $GHIST_SCRIPT --database $GHIST_DB ex"
+alias gh="python3 $GHIST_SCRIPT --database $GHIST_DB get"
+alias gha="python3 $GHIST_SCRIPT --database $GHIST_DB ass"
+alias ghr="python3 $GHIST_SCRIPT --database $GHIST_DB ref"
+alias ghe="python3 $GHIST_SCRIPT --database $GHIST_DB ex"
 
 for f in $(ls $HOME//Development/venv/); do eval 'alias ve-$f=". ~/Development/venv/$f/bin/activate"'; done
 
