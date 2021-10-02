@@ -3,9 +3,9 @@ alias ag='ag -s'
 GHIST_SCRIPT="$HOME/Development/pmg/ghistintime/ghist.py"
 GHIST_DB="$HOME/.ghist.db"
 
-alias gh="python3 $GHIST_SCRIPT --database $GHIST_DB get"
-alias gha="python3 $GHIST_SCRIPT --database $GHIST_DB ass"
-alias ghr="python3 $GHIST_SCRIPT --database $GHIST_DB ref"
-alias ghe="python3 $GHIST_SCRIPT --database $GHIST_DB ex"
+alias  gh="/usr/bin/python3 $GHIST_SCRIPT --database $GHIST_DB get"
+alias gha="/usr/bin/python3 $GHIST_SCRIPT --database $GHIST_DB ass"
+alias ghr="/usr/bin/python3 $GHIST_SCRIPT --database $GHIST_DB ref"
+alias ghe="/usr/bin/python3 $GHIST_SCRIPT --database $GHIST_DB ex"
 
 alias k="kubectl"
