@@ -34,8 +34,9 @@
 " To use:
 " Reload init.vim and :PlugInstall to install plugins.
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
+" curl -fLo ~/.local/share/nvim/site/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 "
-let g:python3_host_prog = "~/Development/venv/.neovim/bin/python"
+let g:python3_host_prog = "~/Development/venv/neovim/bin/python"
 
 let g:maplocalleader = "\<SPACE>"
 
@@ -46,8 +47,9 @@ call plug#begin('~/.local/share/nvim/plugged')
 Plug 'git://github.com/altercation/vim-colors-solarized.git'
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'leafoftree/vim-vue-plugin'
+"Plug 'plasticboy/vim-markdown'
 
-" Plug 'freitass/todo.txt-vim'
+Plug 'freitass/todo.txt-vim'
 " Sorting tasks:
 " <localleader>s Sort the file
 " <localleader>s+ Sort the file on +Projects
@@ -70,7 +72,6 @@ Plug 'leafoftree/vim-vue-plugin'
 " <localleader>x Mark current task as done
 " <localleader>X Mark all tasks as done
 " <localleader>D Move completed tasks to done.txt 
-Plug 'freitass/todo.txt-vim'
 
 
 " Initialize plugin system
@@ -83,8 +84,8 @@ call plug#end()
 """""""""""""""
 set hidden
 set spelllang=en_gb
-"set relativenumber
-set autochdir
+set relativenumber
+"set autochdir
 set tags=/home/peter/Development/tags
 set clipboard=unnamedplus
  
@@ -192,7 +193,7 @@ function! StatuslineGit()
   return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
-highlight ModifiedColour ctermfg=White ctermbg=125
+highlight ModifiedColour ctermfg=White ctermbg=DarkRed
 highlight FilenameColour ctermfg=Gray ctermbg=Black
 highlight WarningColour ctermfg=White ctermbg=Red
 
@@ -202,8 +203,8 @@ set statusline+=%#CursorColumn#
 set statusline+=%#WarningColour#
 "set statusline+=%{IsMouseOn()}
 set statusline+=%#FilenameColour#
-set statusline+=%#ModifiedColour#%{&mod?expand('%:p').'\ [+]':''}%*
-set statusline+=%#FilenameColour#%{&mod?'':expand('%:p')}%*
+set statusline+=\ %f
+set statusline+=%#ModifiedColour#%{&mod?'\ [MOD]\ ':''}%*
 set statusline+=%#FilenameColour#
 set statusline+=%=
 set statusline+=%#LineNr#
@@ -217,7 +218,6 @@ set statusline+=\
 " The Silver Searcher
 """""""""""""""""""""""""""""""""""""""""""""""
 if executable('ag')
-    let g:EclimLocateFileNonProjectScope = 'ag'
     set grepprg=ag\ --case-sensitive\ --path-to-ignore\ ~/pmg/config/vimagignore\ --nogroup\ --nocolor\ --column
     set grepformat=%f:%l:%c%m
 endif
@@ -252,11 +252,13 @@ nmap <LocalLeader>& 7gt
 nmap <LocalLeader>* 8gt
 nmap <LocalLeader>( 9gt
 nmap <LocalLeader>n :set rnu!<CR>
+nmap <LocalLeader>cd :cd %:p:h<CR>:pwd<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""
 " Custom commands
 """""""""""""""""""""""""""""""""""""""""""""""
-"command! -nargs=+ -complete=file -bar Ag silent! grep! <args> $(pwdxx)|cwindow|redraw!
+command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+nnoremap \ :Ag<SPACE>
 
 autocmd FileType python setlocal indentkeys-=<:>
 autocmd FileType python setlocal indentkeys-=:
@@ -271,7 +273,18 @@ let g:netrw_localrmdiropt=' -r'
 let g:netrw_localcopycmdopt=' -r'
 let g:netrw_localmovecmdopt=' -r'
 
-
+"" so :find works with paths of current open buffers
+"" https://vim.fandom.com/wiki/Set_working_directory_to_the_current_file
+"let s:default_path = escape(&path, '\ ') " store default value of 'path'
+"
+"" Always add the current file's directory to the path and tags list if not
+"" already there. Add it to the beginning to speed up searches.
+"autocmd BufRead *
+"      \ let s:tempPath=escape(escape(expand("%:p:h"), ' '), '\ ') |
+"      \ exec "set path-=".s:tempPath |
+"      \ exec "set path-=".s:default_path |
+"      \ exec "set path^=".s:tempPath |
+"      \ exec "set path^=".s:default_path
 
 
 
