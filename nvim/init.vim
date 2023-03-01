@@ -34,7 +34,9 @@
 " To use:
 " Reload init.vim and :PlugInstall to install plugins.
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
+
 " curl -fLo ~/.local/share/nvim/site/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+" :PlugClean to remove
 "
 let g:python3_host_prog = "~/Development/venv/neovim/bin/python"
 
@@ -260,6 +262,8 @@ nmap <LocalLeader>cd :cd %:p:h<CR>:pwd<CR>
 command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 nnoremap \ :Ag<SPACE>
 
+"command! -nargs=+ -complete=file -bar Ag silent! grep! <args> $(pwdxx)|cwindow|redraw!
+
 autocmd FileType python setlocal indentkeys-=<:>
 autocmd FileType python setlocal indentkeys-=:
 autocmd FileType yaml setlocal indentkeys-=<:>
@@ -285,6 +289,5 @@ let g:netrw_localmovecmdopt=' -r'
 "      \ exec "set path-=".s:default_path |
 "      \ exec "set path^=".s:tempPath |
 "      \ exec "set path^=".s:default_path
-
 
 
