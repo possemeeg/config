@@ -1,44 +1,95 @@
 # set up aliases for all venvs
-for f in $(ls ~/Development/venv/)
-do
-    eval 'alias ve-$f=". ~/Development/venv/$f/bin/activate"'
-done
-# function to create a new venv
+
+mkdir -p ~/.config/ve
+
+function ve-list {
+    for f in ~/.config/ve/*
+    do
+        name=$(basename $f)
+        echo "${name}: $(cat $f)/${name}/bin/activate"
+    done
+}
+
 function ve-create {
-   echo "$1 $2"
-   if [ "$1" == "" ]
+   if [ "$1" != "" ]
    then
-      NAME=$(basename $(pwd))
-   else
       NAME=$1
+   else
+      echo "Require name version"
+      return 1
    fi
    if [ "$2" != "" ]
    then
       VER="$2"
    else
-       echo "Require version"
-       return
+      echo "Require python version"
+      return 1
    fi
-   pushd ~/Development/venv
-   rm -r $NAME > /dev/null 2>1
+   if [ "$3" != "" ]
+   then
+      VENV_ROOT="$(realpath $3)"
+   else
+      VENV_ROOT="/home/peter/Development/venv"
+   fi
+
+   if [ -d "$VENV_ROOT/${NAME}" ]
+   then
+       echo "Directory $VENV_ROOT/${NAME} exists. Delete or call ve-delete $NAME"
+       return 1
+   fi
+
+   CONFIG_FILE="/home/peter/.config/ve/${NAME}"
+   echo "config file: $CONFIG_FILE"
+
+   if [ -f "$CONFIG_FILE" ]
+   then
+       echo "File $CONFIG_FILE exists. Delete or call ve-delete $NAME"
+       return 1
+   fi
+
+   echo "$NAME - $VER - $VENV_ROOT"
+   mkdir -p "$VENV_ROOT"
+   pushd "$VENV_ROOT"
    python${VER} -m venv $NAME
    popd
-   alias ve-$NAME=".  ~/Development/venv/$NAME/bin/activate"
-   .  ~/Development/venv/$NAME/bin/activate
+
+   echo "$VENV_ROOT" > $CONFIG_FILE
+
+   . ${VENV_ROOT}/${NAME}/bin/activate
+
    pip install -U pip
-}
-# function to delete a venv
-function ve-delete {
-   if [ "$1" == "" ]
-   then
-      NAME=$(basename $(pwd))
-   else
-      NAME=$1
-   fi
-   rm -r ~/Development/venv/$1
-   unalias ve-$1
+
 }
 
-function ve {
-   eval ve-$(basename $(pwd))
+function ve-delete {
+   if [ "$1" != "" ]
+   then
+      NAME=$1
+   else
+      echo "Require name of virtual environment"
+      return
+   fi
+   config_file=~/.config/ve/${NAME}
+   config_dir=$(cat $config_file)/${NAME}
+
+   deactivate || echo "not in ve"
+
+   read -p "Okay to remove directory ${config_dir} and file ${config_file}: (y/N)" yn
+   case $yn in
+       [Yy]* ) rm -r ${config_dir}; rm ${config_file};;
+       * ) echo "Nothing deleted";;
+   esac
 }
+
+function ve-go {
+   if [ "$1" != "" ]
+   then
+      NAME=$1
+   else
+      echo "Require name version"
+      return 1
+   fi
+
+   . $(cat ~/.config/ve/${NAME})/${NAME}/bin/activate
+}
+

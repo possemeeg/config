@@ -34,11 +34,11 @@
 " To use:
 " Reload init.vim and :PlugInstall to install plugins.
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
-
 " curl -fLo ~/.local/share/nvim/site/autoload/plug.vim https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-" :PlugClean to remove
-"
-let g:python3_host_prog = "~/Development/venv/neovim/bin/python"
+
+" python env
+" pip install 
+let g:python3_host_prog = "~/config/nvim/py-env/neovim/bin/python"
 
 let g:maplocalleader = "\<SPACE>"
 
@@ -90,6 +90,8 @@ set relativenumber
 "set autochdir
 set tags=/home/peter/Development/tags
 set clipboard=unnamedplus
+"set diffopt=vertical,context:999
+set diffopt=vertical
  
 """""""""""""""
 " highlight column 101 
@@ -254,6 +256,9 @@ nmap <LocalLeader>& 7gt
 nmap <LocalLeader>* 8gt
 nmap <LocalLeader>( 9gt
 nmap <LocalLeader>n :set rnu!<CR>
+nmap <LocalLeader>N :set nornu!<CR>
+nmap <LocalLeader>A :Ag -w <CR>
+nmap <LocalLeader>a :Ag <CR>
 nmap <LocalLeader>cd :cd %:p:h<CR>:pwd<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""
@@ -261,8 +266,6 @@ nmap <LocalLeader>cd :cd %:p:h<CR>:pwd<CR>
 """""""""""""""""""""""""""""""""""""""""""""""
 command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
 nnoremap \ :Ag<SPACE>
-
-"command! -nargs=+ -complete=file -bar Ag silent! grep! <args> $(pwdxx)|cwindow|redraw!
 
 autocmd FileType python setlocal indentkeys-=<:>
 autocmd FileType python setlocal indentkeys-=:
@@ -276,6 +279,10 @@ autocmd FileType html setlocal indentkeys-=:
 let g:netrw_localrmdiropt=' -r'
 let g:netrw_localcopycmdopt=' -r'
 let g:netrw_localmovecmdopt=' -r'
+let g:netrw_preview   = 1
+let g:netrw_alto      = 0
+let g:netrw_liststyle = 0
+let g:netrw_winsize   = 80
 
 "" so :find works with paths of current open buffers
 "" https://vim.fandom.com/wiki/Set_working_directory_to_the_current_file
@@ -289,5 +296,18 @@ let g:netrw_localmovecmdopt=' -r'
 "      \ exec "set path-=".s:default_path |
 "      \ exec "set path^=".s:tempPath |
 "      \ exec "set path^=".s:default_path
+"
+" find files and populate the quickfix list
+fun! FindFiles(filename)
+  let error_file = tempname()
+  echo a:filename.' - '.error_file
+  call system('find . -name "'.a:filename.'" -printf "%p:1:1:%f\n" > '.error_file)
+  exe 'cfile '. error_file
+  copen
+  call delete(error_file)
+endfun
+command! -nargs=1 Find call FindFiles(<q-args>)
 
+" this allows alias in bash commands
+set shellcmdflag=-ic
 
