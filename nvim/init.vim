@@ -38,7 +38,7 @@
 
 " python env
 " pip install 
-let g:python3_host_prog = "~/config/nvim/py-env/neovim/bin/python"
+let g:python3_host_prog = "~/config/nvim/py-env/bin/python"
 
 let g:maplocalleader = "\<SPACE>"
 
