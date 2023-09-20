@@ -26,7 +26,7 @@ function dls {
         for dir in 1 2 3 4
         do
             document_set_base_dir $dir
-            echo "--- $(printf "%02d" $dir) $base_dir ---"
+            echo "--- $(printf "%d" $dir) $base_dir ---"
             dls $dir
         done
         return 0
@@ -37,7 +37,7 @@ function dls {
     do
         name=$(basename $f)
         parent=$(basename $base_dir)
-        echo "$(printf "%02d" $count) $parent/$name"
+        echo "$(printf "%2d" $count) $parent/$name"
         ((count++))
     done
 }
