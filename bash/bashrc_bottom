@@ -1,0 +1,6 @@
+# custom
+export EDITOR=nvim
+export PROMPT_COMMAND='gh_put "$(fc -ln -0)"'
+export PATH=/opt/node-v10.16.3-linux-x64/bin:$PATH
+export PATH=/opt/go1.15/go/bin:$PATH
+export GOPATH=~/Development/learning/go-spec/ws

@@ -35,7 +35,11 @@ function ve-create {
    if [ -d "$VENV_ROOT/${NAME}" ]
    then
        echo "Directory $VENV_ROOT/${NAME} exists. Delete or call ve-delete $NAME"
-       return 1
+       read -p "Envoke 've-delete $NAME' now and continue?: (y/N) " yn
+       case $yn in
+           [Yy]* ) ve-delete $NAME;;
+           * ) return 1;;
+       esac
    fi
 
    CONFIG_FILE="/home/peter/.config/ve/${NAME}"
@@ -74,7 +78,7 @@ function ve-delete {
 
    deactivate || echo "not in ve"
 
-   read -p "Okay to remove directory ${config_dir} and file ${config_file}: (y/N)" yn
+   read -p "Okay to remove directory ${config_dir} and file ${config_file}: (y/N) " yn
    case $yn in
        [Yy]* ) rm -r ${config_dir}; rm ${config_file};;
        * ) echo "Nothing deleted";;

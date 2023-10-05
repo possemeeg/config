@@ -123,9 +123,3 @@ export PROMPT_COMMAND='python3 $HOME/Development/pmg/ghistintime/ghist.py --data
 export PATH=/opt/node-v10.16.3-linux-x64/bin:$PATH
 export PATH=/opt/go1.15/go/bin:$PATH
 export GOPATH=~/Development/learning/go-spec/ws
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/opt/google/google-cloud-sdk/path.bash.inc' ]; then . '/opt/google/google-cloud-sdk/path.bash.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/opt/google/google-cloud-sdk/completion.bash.inc' ]; then . '/opt/google/google-cloud-sdk/completion.bash.inc'; fi

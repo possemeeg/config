@@ -276,13 +276,14 @@ autocmd FileType html setlocal indentkeys-=<:>
 autocmd FileType html setlocal indentkeys-=:
 
 " netrw
-let g:netrw_localrmdiropt=' -r'
-let g:netrw_localcopycmdopt=' -r'
-let g:netrw_localmovecmdopt=' -r'
+"let g:netrw_localrmdiropt=' -r'
+"let g:netrw_localcopycmdopt=' -r'
+"let g:netrw_localmovecmdopt=' -r'
 let g:netrw_preview   = 1
-let g:netrw_alto      = 0
-let g:netrw_liststyle = 0
-let g:netrw_winsize   = 80
+"let g:netrw_alto      = 0
+"let g:netrw_liststyle = 0
+"let g:netrw_winsize   = 80
+let g:netrw_banner = 0 " hide the banner
 
 "" so :find works with paths of current open buffers
 "" https://vim.fandom.com/wiki/Set_working_directory_to_the_current_file

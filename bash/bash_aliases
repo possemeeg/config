@@ -1,18 +1,6 @@
-alias ag='ag -s'
+#alias ag='ag -s'
+#                         red                        blue                 white background
+alias ag="ag -s --color-path '1;35' --color-line-number '1;34' --color-match '1;100'"
 
-for f in $(ls $HOME//Development/venv/); do eval 'alias ve-$f=". ~/Development/venv/$f/bin/activate"'; done
-
-function ve-create {
-   pushd ~/Development/venv
-   rm -r $1 > /dev/null 2>1
-   /usr/bin/python3 -m venv $1
-   popd
-   alias ve-$1=".  ~/Development/venv/$1/bin/activate"
-   .  ~/Development/venv/$1/bin/activate
-   pip install -U pip
-}
-
-function ve-delete {
-   rm -r ~/Development/venv/$1
-   unalias ve-$1
-}
+alias today="date '+%Y-%m-%d'"
+alias now="date '+%Y-%m-%d %H:%M:%S'"
