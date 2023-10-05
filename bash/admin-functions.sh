@@ -32,7 +32,14 @@ function dls {
     done
 }
 
-function dcd {
+_dcd_area_name() {
+    _dcd_area=""
+    _dcd_name=""
+    [[ "$1" =~ ^([^/]+)/{0,1}(.*)$ ]] && _dcd_area="${BASH_REMATCH[1]}" && _dcd_name="${BASH_REMATCH[2]}"
+}
+
+
+dcd() {
     AREA=""
     NAME=""
     [[ "$1" =~ ^([^/]+)/{0,1}(.*)$ ]] && AREA="${BASH_REMATCH[1]}" && NAME="${BASH_REMATCH[2]}"
@@ -62,6 +69,23 @@ function dcd {
 
     cd "$base_dir"
     return 0
+
+}
+
+dcd-archive() {
+    _dcd_area_name $1
+    echo ": $_dcd_area/$_dcd_name"
+
+    if [ "$_dcd_area" == "" ] || [ "$_dcd_name" == "" ] || [ "$_dcd_area" == "4" ]
+    then
+        echo "Invalid"
+        return 1
+    fi
+
+    document_set_base_dir $AREA
+
+
+    ##' WIP
 
 }
 

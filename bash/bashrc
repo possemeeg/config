@@ -57,9 +57,9 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\w\[\033[00m\] \$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\[\033[00m\]\[\033[01;34m\]\w\[\033[00m\] \$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\w \$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 unset color_prompt force_color_prompt
 
@@ -88,7 +88,7 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -lF'
+alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
@@ -115,11 +115,15 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+. ~/config/bash/bashrc_bottom
+export CLOUDSDK_PYTHON=/usr/bin/python3
 
-# custom
-export EDITOR=nvim
-#export PROMPT_COMMAND="history -a ~/.glob_history > /dev/null"
-export PROMPT_COMMAND='python3 $HOME/Development/pmg/ghistintime/ghist.py --database $HOME/.ghist.db put "$(fc -ln -0)"'
-export PATH=/opt/node-v10.16.3-linux-x64/bin:$PATH
-export PATH=/opt/go1.15/go/bin:$PATH
-export GOPATH=~/Development/learning/go-spec/ws
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/opt/google/google-cloud-sdk/path.bash.inc' ]; then . '/opt/google/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/opt/google/google-cloud-sdk/completion.bash.inc' ]; then . '/opt/google/google-cloud-sdk/completion.bash.inc'; fi
