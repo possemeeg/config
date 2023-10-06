@@ -2,11 +2,12 @@
 
 mkdir -p ~/.config/ve
 
-function ve-list {
+ve-list() {
     for f in ~/.config/ve/*
     do
         name=$(basename $f)
-        echo "${name}: $(cat $f)/${name}/bin/activate"
+        ([ "$1" == "-s" ] && echo "${name}") || echo "${name}: $(cat $f)/${name}/bin/activate"
+
     done
 }
 
@@ -96,4 +97,23 @@ function ve-go {
 
    . $(cat ~/.config/ve/${NAME})/${NAME}/bin/activate
 }
+
+_ve_completions()
+{
+    local options
+
+    if [ "${#COMP_WORDS[@]}" != "2" ]; then
+      return
+    fi
+
+    for v in $(ve-list -s)
+    do
+        options+=" $v"
+    done
+    COMPREPLY=($(compgen -W "$options" "${COMP_WORDS[1]}"))
+}
+
+complete -F _ve_completions ve-go
+complete -F _ve_completions ve-delete
+
 

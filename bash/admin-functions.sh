@@ -46,6 +46,7 @@ dcd() {
 
     if [ "$NAME" == "" ]
     then
+        cd "$base_dir"
         dls $AREA
     fi
 
@@ -67,7 +68,7 @@ dcd() {
         return 1
     fi
 
-    cd "$base_dir"
+    cd "$base_dir/$NAME"
     return 0
 
 }
@@ -107,3 +108,32 @@ function gitwhichmod {
     done
 }
 
+
+_dcd_completions()
+{
+    if [ "${#COMP_WORDS[@]}" != "2" ]; then
+      return
+    fi
+
+    if [ "${COMP_WORDS[1]}" == "" ]; then
+      COMPREPLY=($(compgen -W "1-projects/ 2-areas/ 3-resources/ 4-archive/" ""))
+      return
+    fi
+
+    if ! [[ ${COMP_WORDS[1]} =~ ^([^/]+)/.*$ ]]
+    then
+      COMPREPLY=($(compgen -W "1-projects/ 2-areas/ 3-resources/ 4-archive/" "${COMP_WORDS[1]}"))
+      return
+    fi
+
+    local option
+
+    for dir in $(find ~/Documents/ -maxdepth 2 -mindepth 2 -path "*${COMP_WORDS[1]}*" -type d)
+    do
+        option="$(basename $(dirname $dir) )/$(basename $dir)"
+        options+=" $option"
+    done
+    COMPREPLY=($(compgen -W "$options" "${COMP_WORDS[1]}"))
+}
+
+complete -F _dcd_completions -o nospace dcd
