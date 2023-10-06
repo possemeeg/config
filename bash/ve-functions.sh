@@ -5,8 +5,7 @@ mkdir -p ~/.config/ve
 ve-list() {
     for f in ~/.config/ve/*
     do
-        name=$(basename $f)
-        ([ "$1" == "-s" ] && echo "${name}") || echo "${name}: $(cat $f)/${name}/bin/activate"
+        echo "$(basename $f)"
 
     done
 }
