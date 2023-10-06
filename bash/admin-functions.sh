@@ -126,7 +126,8 @@ _dcd_completions()
       return
     fi
 
-    local option
+    local options
+    options=""
 
     for dir in $(find ~/Documents/ -maxdepth 2 -mindepth 2 -path "*${COMP_WORDS[1]}*" -type d)
     do
