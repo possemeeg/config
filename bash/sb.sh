@@ -1,4 +1,4 @@
-function document_set_base_dir {
+_sb_document_set_base_dir() {
     base_dir=""
     search_string=""
     for area in 1-projects 2-areas 3-resources 4-archive
@@ -19,8 +19,8 @@ function document_set_base_dir {
     base_dir=~/Documents/$base_dir
 }
 
-function dls {
-    document_set_base_dir $1
+_sb_dls() {
+    _sb_document_set_base_dir $1
 
     count=1
     for f in $base_dir/*
@@ -32,14 +32,14 @@ function dls {
     done
 }
 
-_dcd_area_name() {
+_sb_dcd_area_name() {
     _dcd_area=""
     _dcd_name=""
     [[ "$1" =~ ^([^/]+)/{0,1}(.*)$ ]] && _dcd_area="${BASH_REMATCH[1]}" && _dcd_name="${BASH_REMATCH[2]}"
 }
 
 
-dcd() {
+_sb_dcd() {
     AREA=""
     NAME=""
     [[ "$1" =~ ^([^/]+)/{0,1}(.*)$ ]] && AREA="${BASH_REMATCH[1]}" && NAME="${BASH_REMATCH[2]}"
@@ -47,10 +47,10 @@ dcd() {
     if [ "$NAME" == "" ]
     then
         cd "$base_dir"
-        dls $AREA
+        sb_dls $AREA
     fi
 
-    document_set_base_dir $AREA
+    _sb_document_set_base_dir $AREA
 
     if [[ $NAME =~ ^[0-9]+$ ]]
     then
@@ -73,8 +73,8 @@ dcd() {
 
 }
 
-dcd-archive() {
-    _dcd_area_name $1
+_sb_archive() {
+    sb__dcd_area_name $1
     echo ": $_dcd_area/$_dcd_name"
 
     if [ "$_dcd_area" == "" ] || [ "$_dcd_name" == "" ] || [ "$_dcd_area" == "4" ]
@@ -83,72 +83,64 @@ dcd-archive() {
         return 1
     fi
 
-    document_set_base_dir $AREA
+    _sb_document_set_base_dir $AREA
 
 
     ##' WIP
 
 }
 
-
-function gitwhichmod {
-    IFS=$'\n'
-    for subdir in $(find . -type d -maxdepth 1) 
-    do
-        if [ -d "$subdir/.git" ]
-        then
-            pushd $subdir > /dev/null
-            TEST_OUT=$(git status -s)
-            if [ "$TEST_OUT" != "" ]
-            then
-                echo "==== $subdir ===="
-                echo "$TEST_OUT"
-            fi
-            popd > /dev/null
-        fi
-    done
-}
-
-
-_dcd_completions()
-{
-    if [ "${#COMP_WORDS[@]}" != "2" ]; then
+_sb_completions() {
+    if ! [[ "${#COMP_WORDS[@]}" =~ ^[2-3]$ ]]; then
       return
     fi
-
-    if [ "${COMP_WORDS[1]}" == "" ]; then
-      COMPREPLY=($(compgen -W "1/ 2/ 3/ 4/" ""))
-      return
-    fi
-
-    #if ! [[ ${COMP_WORDS[1]} =~ ^([^/]+)/.*$ ]]
+    local options=("ls" "cd" "ar")
+    local optsions_str="${options[@]}"
+    #local test="\<${COMP_WORDS[1]}\>"
+    #if [[ ! ${options[@]} =~ $test ]]
     #then
-    #  COMPREPLY=($(compgen -W "1/ 2/ 3/ 4/" "${COMP_WORDS[1]}"))
-    #  return
+    #    echo "Expect one of: ${options[@]}"
+    #    return 1
     #fi
+    local word1=${COMP_WORDS[1]}
+    if [[ "${#word1}" =~ ^[0-1]$ ]]; then
+      COMPREPLY=($(compgen -W "$optsions_str" "${word1}"))
+      return
+    fi
 
-    local options="" base_dir base_dir_num="${COMP_WORDS[1]:0:1}"
-    case "$base_dir_num" in
-        1)
-            base_dir="1-projects"
-            ;;
-        2)
-            base_dir="2-areas"
-            ;;
-        3)
-            base_dir="3-resources"
-            ;;
-        4)
-            base_dir="4-archives"
-            ;;
-    esac
+    if [ "${COMP_WORDS[2]}" == "" ]; then
+      COMPREPLY=($(compgen -W "1-projects/ 2-areas/ 3-resources/ 4-archive/" ""))
+      return
+    fi
 
-    for dir in $(find ~/Documents/ -maxdepth 2 -mindepth 2 -path "*${base_dir}*" -type d)
+    if ! [[ ${COMP_WORDS[1]} =~ ^([^/]+)/.*$ ]]
+    then
+      COMPREPLY=($(compgen -W "1-projects/ 2-areas/ 3-resources/ 4-archive/" "${COMP_WORDS[1]}"))
+      return
+    fi
+
+    local options
+    options=""
+
+    for dir in $(find ~/Documents/ -maxdepth 2 -mindepth 2 -path "*${COMP_WORDS[1]}*" -type d)
     do
-        option="$(basename ${base_dir_num:0:1})/$(basename $dir)"
+        option="$(basename $(dirname $dir) )/$(basename $dir)"
         options+=" $option"
     done
     COMPREPLY=($(compgen -W "$options" "${COMP_WORDS[1]}"))
 }
 
-complete -F _dcd_completions -o nospace dcd
+sb() {
+    local options=("ls" "cd" "ar")
+    local test="\<${1}\>"
+    if [[ ! ${options[@]} =~ $test ]]
+    then
+        echo "Expect one of: ${options[@]}"
+        return 1
+    fi
+    echo "Option $1"
+
+}
+
+complete -F _sb_completions -o nospace sb
+

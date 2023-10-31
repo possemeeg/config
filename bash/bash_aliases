@@ -7,3 +7,4 @@ alias now="date '+%Y-%m-%d %H:%M:%S'"
 . ~/config/bash/git-functions.sh
 . ~/config/bash/ve-functions.sh
 . ~/config/bash/admin-functions.sh
+. ~/config/bash/kenv.sh
