@@ -46,10 +46,14 @@ packadd vimball
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'git://github.com/altercation/vim-colors-solarized.git'
+"Plug 'git://github.com/altercation/vim-colors-solarized.git'
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'leafoftree/vim-vue-plugin'
 "Plug 'plasticboy/vim-markdown'
+
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+
 
 Plug 'freitass/todo.txt-vim'
 " Sorting tasks:
@@ -223,7 +227,7 @@ set statusline+=\
 " The Silver Searcher
 """""""""""""""""""""""""""""""""""""""""""""""
 if executable('ag')
-    set grepprg=ag\ --case-sensitive\ --path-to-ignore\ ~/pmg/config/vimagignore\ --nogroup\ --nocolor\ --column\ --nomultiline
+    set grepprg=ag\ --case-sensitive\ --path-to-ignore\ ~/config/vimagignore\ --nogroup\ --nocolor\ --column\ --nomultiline
     set grepformat=%f:%l:%c%m
 endif
 
