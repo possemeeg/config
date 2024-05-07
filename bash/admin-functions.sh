@@ -113,12 +113,12 @@ function gitwhichmod {
 _dcd_completions()
 {
     if [ "${#COMP_WORDS[@]}" != "2" ]; then
-      return
+        return
     fi
 
     if [ "${COMP_WORDS[1]}" == "" ]; then
-      COMPREPLY=($(compgen -W "1/ 2/ 3/ 4/" ""))
-      return
+        COMPREPLY=($(compgen -W "1/ 2/ 3/ 4/" ""))
+        return
     fi
 
     #if ! [[ ${COMP_WORDS[1]} =~ ^([^/]+)/.*$ ]]
@@ -149,6 +149,14 @@ _dcd_completions()
         options+=" $option"
     done
     COMPREPLY=($(compgen -W "$options" "${COMP_WORDS[1]}"))
+    # below attempt at getting this to work if you go say dcd 1/adt--beans/ (and then tab to get subdirs of adt--beans.
+    # see: https://stackoverflow.com/questions/10993514/bash-autocompletion-with-file-names
+    # https://unix.stackexchange.com/questions/28283/autocomplete-of-filename-in-directory
+    #if [ "${#COMPREPLY[@]}" == "1" ]
+    #then
+    #   local cur=${COMP_WORDS[COMP_CWORD]}
+    #    COMPREPLY=( $(compgen -W "$(ls ~/Documents/${base_dir}/$(echo ${COMPREPLY[0]} | sed 's|^[^/]*/||'))" -- $cur) )
+    #fi
 }
 
 complete -F _dcd_completions -o nospace dcd

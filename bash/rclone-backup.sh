@@ -14,25 +14,31 @@ MAX_DIR_SIZE=6G
 MAX_NUM_FILES_IN_DIR=100
 
 echo "Creating exclude file: $EXCLUDE_FROM_FILE"
+echo "# exclude file" > $EXCLUDE_FROM_FILE
 
-echo "Excluding directies from $HARD_EXCLUDE_FROM_FILE"
-cat $HARD_EXCLUDE_FROM_FILE > $EXCLUDE_FROM_FILE
+echo "# Excluding directies from $HARD_EXCLUDE_FROM_FILE" >> $EXCLUDE_FROM_FILE
+tail -1 $EXCLUDE_FROM_FILE
+cat $HARD_EXCLUDE_FROM_FILE >> $EXCLUDE_FROM_FILE
 
 pushd $CLONE_ROOT_DIR > /dev/null
 
-echo "Excluding git directories"
+echo "# Excluding git directories" >> $EXCLUDE_FROM_FILE
+tail -1 $EXCLUDE_FROM_FILE
 find . -type d -name .git -exec  dirname {} \; | sed -e 's/$/\//' -e 's/^.//' >> $EXCLUDE_FROM_FILE
 
-echo "Excluding files larger than $MAX_FILE_SIZE"
+echo "# Excluding files larger than $MAX_FILE_SIZE" >> $EXCLUDE_FROM_FILE
+tail -1 $EXCLUDE_FROM_FILE
 find . -size +$MAX_FILE_SIZE | sed -e 's/^.//' >> $EXCLUDE_FROM_FILE
  
-echo "Excluding directories larger than $MAX_DIR_SIZE"
+echo "# Excluding directories larger than $MAX_DIR_SIZE" >> $EXCLUDE_FROM_FILE
+tail -1 $EXCLUDE_FROM_FILE
 du -S -t $MAX_DIR_SIZE ./*/ | cut -d$'\t' -f2- | awk '{$1=$1};1' | sed -e 's/$/\//' -e 's/^.//' >> $EXCLUDE_FROM_FILE
 
-echo "Excluding directorys with more than $MAX_NUM_FILES_IN_DIR files"
+echo "# Excluding directorys with more than $MAX_NUM_FILES_IN_DIR files" >> $EXCLUDE_FROM_FILE
+tail -1 $EXCLUDE_FROM_FILE
 IFS=$'\n' && for f in $(find . -type d |sort -u); do echo $(find "$f" -maxdepth 1 -name "*" |wc -l):$f; done | awk -v max_fs="$MAX_NUM_FILES_IN_DIR" -F: '{if($1>max_fs)print$2}' | sed -e 's/$/\//' -e 's/^.//' >> $EXCLUDE_FROM_FILE
 
-if [ "$TEST_MODE" != "" ]
+if [ "$TEST_MODE" == "1" ]
 then
     TEST_FILES_TO_CP=files-to-cp.txt
     TEST_EXCLUDED=excluded.txt

@@ -104,6 +104,7 @@ set diffopt=vertical
 """"""""
 syntax enable
 set background=dark
+"set background=light
 let g:solarized_visibility = "high"
 let g:solarized_contrast = "high"
 let g:solarized_termcolors = 256
@@ -222,7 +223,7 @@ set statusline+=\
 " The Silver Searcher
 """""""""""""""""""""""""""""""""""""""""""""""
 if executable('ag')
-    set grepprg=ag\ --case-sensitive\ --path-to-ignore\ ~/pmg/config/vimagignore\ --nogroup\ --nocolor\ --column
+    set grepprg=ag\ --case-sensitive\ --path-to-ignore\ ~/pmg/config/vimagignore\ --nogroup\ --nocolor\ --column\ --nomultiline
     set grepformat=%f:%l:%c%m
 endif
 
@@ -265,6 +266,7 @@ nmap <LocalLeader>cd :cd %:p:h<CR>:pwd<CR>
 " Custom commands
 """""""""""""""""""""""""""""""""""""""""""""""
 command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+command! -nargs=+ -complete=file -bar Pyag silent! grep! -G.*py <args>|cwindow|redraw!
 nnoremap \ :Ag<SPACE>
 
 autocmd FileType python setlocal indentkeys-=<:>
