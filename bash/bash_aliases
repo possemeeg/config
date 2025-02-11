@@ -9,3 +9,6 @@ alias now="date '+%Y-%m-%d %H:%M:%S'"
 . ~/config/bash/admin-functions.sh
 . ~/config/bash/kenv.sh
 . ~/config/bash/esenv.sh
+
+alias gh="/home/peter/config/venv/opt_gh_ghistintime/bin/gh"
+alias ght="/home/peter/config/venv/opt_gh_ghistintime/bin/gh 100000 '[{t}] {c}'"

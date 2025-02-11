@@ -3,7 +3,13 @@
 #
 # See find-lots-of-file-dirs.sh to edit ~/Documents/.rclone-ignore
 
-TEST_MODE=0
+TEST_MODE=$1
+if [ "$TEST_MODE" == "1" ]
+then
+    TEST_FILES_TO_CP=files-to-cp.txt
+    TEST_EXCLUDED=excluded.txt
+    echo "Test mode: creating files $TEST_FILES_TO_CP and $TEST_EXCLUDED"
+fi
 
 HARD_EXCLUDE_FROM_FILE=~/Documents/.rclone-ignore
 EXCLUDE_FROM_FILE="$(mktemp)"
@@ -40,8 +46,6 @@ IFS=$'\n' && for f in $(find . -type d |sort -u); do echo $(find "$f" -maxdepth 
 
 if [ "$TEST_MODE" == "1" ]
 then
-    TEST_FILES_TO_CP=files-to-cp.txt
-    TEST_EXCLUDED=excluded.txt
     rclone ls . --skip-links --exclude-from=$EXCLUDE_FROM_FILE > $TEST_FILES_TO_CP
     cp $EXCLUDE_FROM_FILE $TEST_EXCLUDED
     echo "Test mode: created $TEST_FILES_TO_CP and $TEST_EXCLUDED"
