@@ -25,11 +25,14 @@ function ve-create {
       echo "Require python version"
       return 1
    fi
-   if [ "$3" != "" ]
+   if [ "$VENV_ROOT" == "" ]
    then
-      VENV_ROOT="$(realpath $3)"
-   else
-      VENV_ROOT="/home/peter/Development/venv"
+     if [ "$3" != "" ]
+     then
+        VENV_ROOT="$(realpath $3)"
+     else
+        VENV_ROOT="~/venv"
+     fi
    fi
 
    if [ -d "$VENV_ROOT/${NAME}" ]

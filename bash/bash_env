@@ -1,0 +1,2 @@
+export VENV_ROOT="/home/peter/.venv"
+export PROMPT_COMMAND='/home/peter/.venv/ghistintime/bin/gh_put "$(fc -ln -0)"'
