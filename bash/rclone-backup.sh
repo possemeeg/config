@@ -9,12 +9,18 @@ then
     TEST_FILES_TO_CP=files-to-cp.txt
     TEST_EXCLUDED=excluded.txt
     echo "Test mode: creating files $TEST_FILES_TO_CP and $TEST_EXCLUDED"
+else
+    if [ "$RCLONE_BACKUP_REMOTE" == "" ]
+    then
+        echo "Must set RCLONE_BACKUP_REMOTE - do: rclone listremotes"
+        exit 1
+    fi
 fi
 
-HARD_EXCLUDE_FROM_FILE=~/Documents/.rclone-ignore
+HARD_EXCLUDE_FROM_FILE=$HOME/Documents/.rclone-ignore
 EXCLUDE_FROM_FILE="$(mktemp)"
-CLONE_ROOT_DIR=~/Documents
-REMOTE=antgdrive
+CLONE_ROOT_DIR=$HOME/Documents
+LOG_FILE=$HOME/rclone-log.txt
 MAX_FILE_SIZE=1G
 MAX_DIR_SIZE=6G
 MAX_NUM_FILES_IN_DIR=100
@@ -50,8 +56,13 @@ then
     cp $EXCLUDE_FROM_FILE $TEST_EXCLUDED
     echo "Test mode: created $TEST_FILES_TO_CP and $TEST_EXCLUDED"
 else
-    echo "Syncing. (What about?)"
-    rclone sync . $REMOTE:backup/current/Document --progress --skip-links --exclude-from=$EXCLUDE_FROM_FILE --backup-dir $REMOTE:backup/old/Document
+    REMOTE_ROOT="backup/`hostname`"
+    STATS_ROOT="$REMOTE_ROOT/`printf '%(%Y-%m-%d %H:%M:%S)T' -1`"
+    echo "Syncing (what about?) to $RCLONE_BACKUP_REMOTE:$REMOTE_ROOT."
+    rclone sync . $RCLONE_BACKUP_REMOTE:$REMOTE_ROOT/current/Document --progress --skip-links --exclude-from=$EXCLUDE_FROM_FILE --backup-dir $RCLONE_BACKUP_REMOTE:$REMOTE_ROOT/old/Document --log-file=$LOG_FILE --log-level INFO
+    rclone copyto $EXCLUDE_FROM_FILE $RCLONE_BACKUP_REMOTE:$STATS_ROOT/excluded-from-backup.txt
+    rclone copy $LOG_FILE $RCLONE_BACKUP_REMOTE:$STATS_ROOT
+    rm $LOG_FILE
 fi
 
 rm $EXCLUDE_FROM_FILE
