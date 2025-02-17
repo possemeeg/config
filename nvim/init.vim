@@ -1,1 +1,0 @@
-/home/peter/config/nvim/init-dark.vim
