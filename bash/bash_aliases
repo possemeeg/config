@@ -3,8 +3,8 @@ alias ag="ag -s --color-path '1;35' --color-line-number '1;34' --color-match '1;
 
 alias today="date '+%Y-%m-%d'"
 alias now="date '+%Y-%m-%d %H:%M:%S'"
-alias gh="/home/peter/.venv/ghistintime/bin/gh"
-alias ght="/home/peter/.venv/ghistintime/bin/gh 100000 '[{t}] {c}'"
+alias gh="$HOME/.venv/ghistintime/bin/gh"
+alias ght="$HOME/.venv/ghistintime/bin/gh 100000 '[{t}] {c}'"
 
 . ~/config/bash/git-functions.sh
 . ~/config/bash/ve-functions.sh

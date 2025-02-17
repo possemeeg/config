@@ -45,7 +45,7 @@ function ve-create {
        esac
    fi
 
-   CONFIG_FILE="/home/peter/.config/ve/${NAME}"
+   CONFIG_FILE="$HOME/.config/ve/${NAME}"
    echo "config file: $CONFIG_FILE"
 
    if [ -f "$CONFIG_FILE" ]
