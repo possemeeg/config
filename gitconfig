@@ -1,0 +1,12 @@
+[user]
+	email = possemeeg@gmail.com
+	name = Peter Metcalf
+[merge]
+  tool = nvimdiff
+[mergetool]
+  prompt = false
+  keepBackup = false
+[mergetool "nvimdiff"]
+  layout = "LOCAL,BASE,REMOTE / MERGED"
+[difftool]
+	prompt = true

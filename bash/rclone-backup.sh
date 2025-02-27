@@ -17,10 +17,10 @@ else
     fi
 fi
 
-HARD_EXCLUDE_FROM_FILE=~/Documents/.rclone-ignore
+HARD_EXCLUDE_FROM_FILE=$HOME/Documents/.rclone-ignore
 EXCLUDE_FROM_FILE="$(mktemp)"
-CLONE_ROOT_DIR=~/Documents
-REMOTE=antgdrive
+CLONE_ROOT_DIR=$HOME/Documents
+LOG_FILE=$HOME/rclone-log.txt
 MAX_FILE_SIZE=1G
 MAX_DIR_SIZE=6G
 MAX_NUM_FILES_IN_DIR=100
