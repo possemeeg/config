@@ -5,7 +5,7 @@ vim.o.relativenumber = false
 -- vim.o.background = "dark"
 vim.o.expandtab = true
 
-vim.api.nvim_create_user_command('Test', 'echo "It works!"', {nargs="+"})
+vim.api.nvim_create_user_command("Ctags", "!rg --files | ctags -R --links=no -L -", {})
 
 vim.keymap.set("n", "<leader>q", ":q<cr>")
 vim.keymap.set("n", "<leader>e", ":Oil<cr>")
