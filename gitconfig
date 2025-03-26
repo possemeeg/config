@@ -10,3 +10,5 @@
   layout = "LOCAL,BASE,REMOTE / MERGED"
 [difftool]
 	prompt = true
+[init]
+	defaultBranch = main
