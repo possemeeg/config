@@ -1,9 +1,9 @@
 # set up aliases for all venvs
 
-mkdir -p ~/.config/ve
+mkdir -p ${HOME}/.config/ve
 
 ve-list() {
-  for f in ~/.config/ve/*
+  for f in ${HOME}/.config/ve/*
   do
     echo "$(basename $f)"
   
@@ -31,7 +31,7 @@ function ve-create {
     then
       VENV_ROOT="$(realpath $3)"
     else
-      VENV_ROOT="~/venv"
+      VENV_ROOT="${HOME}/.venv"
     fi
   fi
   
@@ -76,7 +76,7 @@ function ve-delete {
     echo "Require name of virtual environment"
     return
   fi
-  config_file=~/.config/ve/${NAME}
+  config_file=${HOME}/.config/ve/${NAME}
   config_dir=$(cat $config_file)/${NAME}
   
   deactivate || echo "not in ve"
@@ -97,7 +97,7 @@ function ve-go {
     return 1
   fi
   
-  . $(cat ~/.config/ve/${NAME})/${NAME}/bin/activate
+  . $(cat ${HOME}/.config/ve/${NAME})/${NAME}/bin/activate
 }
 
 function ve {
