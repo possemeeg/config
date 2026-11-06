@@ -7,7 +7,11 @@ return {
     prompt_save_on_select_new_entry = false,
     view_options = {
       show_hidden = false
-    }
+    },
+
+  win_options = {
+    signcolumn = "yes:2",
+  }
   },
   -- Optional dependencies
    dependencies = { { "echasnovski/mini.icons", opts = {} } },

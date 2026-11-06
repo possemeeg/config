@@ -88,9 +88,9 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+alias ll='ls -alF --time-style=long-iso'
+alias la='ls -A --time-style=long-iso'
+alias l='ls -CF --time-style=long-iso'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -159,3 +159,7 @@ if [ -f '/opt/my-google-cloud-sdk/google-cloud-sdk/completion.bash.inc' ]; then 
 
 #export PYENV_ROOT="$HOME/.pyenv"
 #>>>>>>> Stashed changes
+#
+export GOBIN=/opt/go/bin
+export GOPATH=/opt/go/bin
+export PATH=$PATH:/opt/go/bin

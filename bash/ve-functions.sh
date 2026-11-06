@@ -96,8 +96,13 @@ function ve-go {
     echo "Require name"
     return 1
   fi
+  export VENV_CURRENT=${NAME}
   
   . $(cat ${HOME}/.config/ve/${NAME})/${NAME}/bin/activate
+}
+
+function ve-ex {
+  find ~/.venv/${VENV_CURRENT}/bin -type f -perm -o=x -printf "%f\n" ! -name "*.*" | rg -v '(pip|pyrsa|pytest)'
 }
 
 function ve {
@@ -112,6 +117,7 @@ function ve {
     create ) ve-create "${@:2}";;
     delete ) ve-delete "${@:2}";;
     list ) ve-list "${@:2}";;
+    ex ) ve-ex ;;
     * ) echo $err; return 1;;
   esac
   return $?
