@@ -43,6 +43,16 @@ vim.api.nvim_set_hl(0, "DiffAdd", {bg = "#20303b"})
 vim.api.nvim_set_hl(0, "DiffDelete", {bg = "#37222c"})
 vim.api.nvim_set_hl(0, "DiffChange", {bg = "#1f2231"})
 vim.api.nvim_set_hl(0, "DiffText", {bg = "#394b70"})
+--
+-- Yank to system clipboard (Normal and Visual modes)
+vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = 'Yank to system clipboard' })
+vim.keymap.set('n', '<leader>Y', '"+Y', { desc = 'Yank line to system clipboard' })
+
+-- Paste from system clipboard (Normal and Visual modes)
+vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', { desc = 'Paste after from system clipboard' })
+vim.keymap.set({ 'n', 'v' }, '<leader>P', '"+P', { desc = 'Paste before from system clipboard' })
+
+vim.opt.backupcopy = "yes"
 
 require("config.lazy")
 
@@ -55,16 +65,6 @@ vim.filetype.add({
     tfstate = "json",
   },
 })
-
-vim.keymap.set('n', '<leader>y', function()
-  if vim.opt.clipboard:get()[1] == 'unnamedplus' then
-    vim.opt.clipboard = ''
-    vim.notify('Clipboard: Default (Neovim standard registers)', vim.log.levels.INFO)
-  else
-    vim.opt.clipboard = 'unnamedplus'
-    vim.notify('Clipboard: System (unnamedplus)', vim.log.levels.INFO)
-  end
-end, { desc = 'Toggle system clipboard' })
 
 vim.keymap.set('n', '<leader>qp', function()
   -- Read clipboard content ('+' or '*' register)
