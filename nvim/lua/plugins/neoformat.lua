@@ -1,5 +1,6 @@
 return {
-  {
-    "sbdchd/neoformat"
-  }
+    {
+        "sbdchd/neoformat"
+    }
 }
+
